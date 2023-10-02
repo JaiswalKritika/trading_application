@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+
+  {% extends 'layouts/base.html' %}
+
+  {% block title %} Profile {% endblock title %}
+
+  {% block content %}
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <body>
+
+    <div class="row">
+      <div class="card-body">
+        <div class="card">
+          <div class="card-header border-0">
+            <div class="row align-items-center">
+              <div class="col">
+                <h2 class="mb-0">Add Strategy</h2>
+              </div>
+              <div class="col text-right">
+                <a href="{% url 'showStrategy' %}" class="btn btn-sm btn-primary">show</a>
+              </div>
+            </div>
+          </div>
+
+          <form action="{% url 'createStrategy' %}" id="form" method="post" enctype="multipart/form-data"
+            class="has-validation-callback0" style="padding: 2%;">
+            {% csrf_token %}
+            <div class="row">
+              <input type="hidden" name="strategy_id" value="1">
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="strategy_name">strategy_name</label>
+                <input type="text" class="form-control" id="strategy_name" placeholder="" name="strategy_name">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="applicable_scripts">applicable_scripts</label>
+                <div class="dropdown">
+                  <select multiple class="" name="applicable_scripts" type="button" id="dropdown" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false" style="width:290%;">
+                    applicable_scripts
+                    <div class="dropdown-menu">
+                      <option class="dropdown-item" value="nifty">Nifty</option>
+                      <option class="dropdown-item" value="banknifty">Bank Nifty</option>
+                      <option class="dropdown-item" value="finnifty">Finn Nifty</option>
+                    </div>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <div class="dropdown">
+                  <select class="" name="strategy_status" type="button" id="strategy_status" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false" style="width:290%;">
+                    strategy_status
+                    <div class="dropdown-menu">
+                      <option class="dropdown-item" value="active">active</option>
+                      <option class="dropdown-item" value="inactive">inactive</option>
+                    </div>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="updated_by">updated_by</label>
+                <input type="text" class="form-control" id="updated_by" placeholder="" name="updated_by">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="updated_on">updated_on</label>
+                <input type="datetime-local" class="form-control" id="updated_on" placeholder="" name="updated_on">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="orb_range_candle_time">orb_range_candle_time</label>
+                <input type="text" class="form-control" id="orb_range_candle_time" placeholder=""
+                  name="orb_range_candle_time">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="or_breakout_candle_time">or_breakout_candle_time</label>
+                <input type="text" class="form-control" id="or_breakout_candle_time" placeholder=""
+                  name="or_breakout_candle_time">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="orb_ma_h">orb_ma_h</label>
+                <input type="text" class="form-control" id="orb_ma_h" placeholder="" name="orb_ma_h">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="orb_ma_l">orb_ma_l</label>
+                <input type="text" class="form-control" id="orb_ma_l" placeholder="" name="orb_ma_l">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="orb_range_start_time">orb_range_start_time</label>
+                <input type="time" class="form-control" id="orb_range_start_time" placeholder=""
+                  name="orb_range_start_time">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="orb_retracement_time">orb_retracement_time</label>
+                <input type="text" class="form-control" id="orb_retracement_time" placeholder=""
+                  name="orb_retracement_time">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_ma_h">itm_ma_h</label>
+                <input type="text" class="form-control" id="itm_ma_h" placeholder="" name="itm_ma_h">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_ma_l">itm_ma_l</label>
+                <input type="text" class="form-control" id="itm_ma_l" placeholder="" name="itm_ma_l">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_ma_oi">itm_ma_oi</label>
+                <input type="text" class="form-control" id="itm_ma_oi" placeholder="" name="itm_ma_oi">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_reentry_after_mins">itm_reentry_after_mins</label>
+                <input type="text" class="form-control" id="itm_reentry_after_mins" placeholder=""
+                  name="itm_reentry_after_mins">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_entry_points_difference">itm_entry_points_difference</label>
+                <input type="text" class="form-control" id="itm_entry_points_difference" placeholder=""
+                  name="itm_entry_points_difference">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_exit_points_difference">itm_exit_points_difference</label>
+                <input type="text" class="form-control" id="itm_exit_points_difference" placeholder=""
+                  name="itm_exit_points_difference">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_sl_points_difference">itm_sl_points_difference</label>
+                <input type="text" class="form-control" id="itm_sl_points_difference" placeholder=""
+                  name="itm_sl_points_difference">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_sl_cost_points_difference">itm_sl_cost_points_difference</label>
+                <input type="text" class="form-control" id="itm_sl_cost_points_difference" placeholder=""
+                  name="itm_sl_cost_points_difference">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_vwap_points_difference">itm_vwap_points_difference</label>
+                <input type="text" class="form-control" id="itm_vwap_points_difference" placeholder=""
+                  name="itm_vwap_points_difference">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_sold_option_premium_decay">itm_sold_option_premium_decay</label>
+                <input type="text" class="form-control" id="itm_sold_option_premium_decay" placeholder=""
+                  name="itm_sold_option_premium_decay">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_profit_percent">itm_profit_percent</label>
+                <input type="text" class="form-control" id="itm_profit_percent" placeholder=""
+                  name="itm_profit_percent">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_profit_increment">itm_profit_increment</label>
+                <input type="text" class="form-control" id="itm_profit_increment" placeholder=""
+                  name="itm_profit_increment">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_first_target_qty">itm_first_target_qty</label>
+                <input type="text" class="form-control" id="itm_first_target_qty" placeholder=""
+                  name="itm_first_target_qty">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_second_target_qty">itm_second_target_qty</label>
+                <input type="text" class="form-control" id="itm_second_target_qty" placeholder=""
+                  name="itm_second_target_qty">
+              </div>
+              <div class="dropdown">
+                <select class="" name="itm_order_type" type="button" id="itm_order_type" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false" style="width:290%;">
+                  itm_order_type
+                  <div class="dropdown-menu">
+                    <option class="dropdown-item" value="buy">BUY</option>
+                    <option class="dropdown-item" value="sell">SELL</option>
+                    <option class="dropdown-item" value="both">BOTH</option>
+                  </div>
+                </select>
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_last_entry_condition_check_time">itm_last_entry_condition_check_time</label>
+                <input type="time" class="form-control" id="itm_last_entry_condition_check_time" placeholder=""
+                  name="itm_last_entry_condition_check_time">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_pyramid_start_time">itm_pyramid_start_time</label>
+                <input type="text" class="form-control" id="itm_pyramid_start_time" placeholder=""
+                  name="itm_pyramid_start_time">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_last_pyramid_condition_check_time">itm_last_pyramid_condition_check_time</label>
+                <input type="time" class="form-control" id="itm_last_pyramid_condition_check_time" placeholder=""
+                  name="itm_last_pyramid_condition_check_time">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_second_tranche_time_diffence_mins">itm_second_tranche_time_diffence_mins</label>
+                <input type="text" class="form-control" id="itm_second_tranche_time_diffence_mins" placeholder=""
+                  name="itm_second_tranche_time_diffence_mins">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_order_qty">itm_order_qty</label>
+                <input type="text" class="form-control" id="itm_order_qty" placeholder="" name="itm_order_qty">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="itm_order_multiplier">itm_order_multiplier</label>
+                <input type="text" class="form-control" id="itm_order_multiplier" placeholder=""
+                  name="itm_order_multiplier">
+              </div>
+
+              <!--dkddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd-->
+              <!-- <div class="nifty" id="nifty" > -->
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="nifty_instrument_token">nifty_instrument_token</label>
+                <input type="number" class="form-control" id="nifty_instrument_token" placeholder=""
+                  name="nifty_instrument_token">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="nifty_hl_difference_points">nifty_hl_difference_points</label>
+                <input type="number" class="form-control" id="nifty_hl_difference_points" placeholder=""
+                  name="nifty_hl_difference_points">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="nifty_or_range_point_difference">nifty_or_range_point_difference</label>
+                <input type="number" class="form-control" id="nifty_or_range_point_difference" placeholder=""
+                  name="nifty_or_range_point_difference">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="nifty_or_breakout_range_point_diff">nifty_or_breakout_range_point_diff</label>
+                <input type="number" class="form-control" id="nifty_or_breakout_range_point_diff" placeholder=""
+                  name="nifty_or_breakout_range_point_diff">
+              </div>
+              <!-- </div> -->
+              <!--bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb-->
+              <!-- <div class="bankNifty" id="banknifty"> -->
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="bankNifty_instrument_token">bankNifty_instrument_token</label>
+                <input type="number" class="form-control" id="bankNifty_instrument_token" placeholder=""
+                  name="bankNifty_instrument_token">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="bankNifty_hl_difference_points">bankNifty_hl_difference_points</label>
+                <input type="number" class="form-control" id="bankNifty_hl_difference_points" placeholder=""
+                  name="bankNifty_hl_difference_points">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="bankNifty_or_range_point_difference">bankNifty_or_range_point_difference</label>
+                <input type="number" class="form-control" id="bankNifty_or_range_point_difference" placeholder=""
+                  name="bankNifty_or_range_point_difference">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="bankNifty_or_breakout_range_point_diff">bankNifty_or_breakout_range_point_diff</label>
+                <input type="number" class="form-control" id="bankNifty_or_breakout_range_point_diff" placeholder=""
+                  name="bankNifty_or_breakout_range_point_diff">
+              </div>
+              <!-- </div> -->
+              <!--aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-->
+              <!-- <div class="finnifty" id="finnifty" > -->
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="finNifty_instrument_token">finNifty_instrument_token</label>
+                <input type="number" class="form-control" id="finNifty_instrument_token" placeholder=""
+                  name="finNifty_instrument_token">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="finNifty_hl_difference_points">finNifty_hl_difference_points</label>
+                <input type="number" class="form-control" id="finNifty_hl_difference_points" placeholder=""
+                  name="finNifty_hl_difference_points">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="finNifty_or_range_point_difference">finNifty_or_range_point_difference</label>
+                <input type="number" class="form-control" id="finNifty_or_range_point_difference" placeholder=""
+                  name="finNifty_or_range_point_difference">
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="finNifty_or_breakout_range_point_diff">finNifty_or_breakout_range_point_diff</label>
+                <input type="number" class="form-control" id="finNifty_or_breakout_range_point_diff" placeholder=""
+                  name="finNifty_or_breakout_range_point_diff">
+              </div>
+        </div>
+      </div>
+
+        <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+
+        {% include "includes/footer.html" %}
+
+      </div>
+    </div>
+
+    {% endblock content %}
+
+    <!-- Specific JS goes HERE -->
+    {% block javascripts %}{% endblock javascripts %}
+    <script>
+      function applicable_scripts() {
+        var val = document.getElementById("dropdownMenuButton").value
+        if (val == "nifty") {
+          $("#nifty").show
+        }
+        if (val == "banknifty") {
+          $("#banknifty").show
+        }
+        if (val == "finnifty") {
+          $("#finnifty").show
+        }
+      }
+    </script>
+  </body>
+
+</html>

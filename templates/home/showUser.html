@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+{% extends 'layouts/base.html' %}
+
+{% block title %} Profile {% endblock title %}
+
+{% block content %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+<body>
+    <div class="row">
+    <div class="card-body">
+    
+            <div class="card">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Users</h3>
+                        </div>
+                        <div class="col text-right">
+                            <a href="{% url 'createUser' %}" class="btn btn-sm btn-primary">Add</a>
+                        </div>
+                    </div>
+                </div>
+                <div >
+                    <!-- Projects table -->
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" style="width: 150px;">User Name</th>
+                                <!-- <th scope="col"style="width: 150px;">Password</th> -->
+                                <th scope="col"style="width: 217.767px;">Contact No.</th>
+                                <th scope="col"style="width: 150px;">Email</th>
+                                <th scope="col"style="width: 200px;">status</th>
+                                <th scope="col"style="width: 150px;">Created Date</th>
+                                <th scope="col"style="width: 150px;">Updated Date</th>
+                                <th scope="col"style="width: 217.767px;">Actions</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for x in data %}
+                            <tr>
+                                
+                                <td scope="row">{{ x.user_name }}</td>
+                                <!-- <td scope="row">{{ x.user_password }}</td> -->
+                                <td scope="row">{{ x.contact_no}}</td>
+                                <td scope="row">{{ x.email}}</td>
+                                <td scope="row">{{ x.status}}</td>
+                                <td scope="row">{{ x.created_date}}</td>
+                                <td scope="row">{{ x.updated_date}}</td>
+                                <td>
+                                    <div class="btn-group">
+                                      <a href="{% url 'updateUser' x.doc_id %}" class="btn btn-success"><i
+                                          class="fa fa-edit"></i></a>
+                                      <a href="{% url 'deleteUser' x.doc_id %}" onclick="return confirm('Are you sure to delete..?')"
+                                        class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                  </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        
+
+
+            {% include "includes/footer.html" %}
+
+        </div>
+    
+    {% endblock content %}
+    
+    <!-- Specific JS goes HERE --> 
+    {% block javascripts %}
+    
+      <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
+      <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+    
+    {% endblock javascripts %}
+    </body>
+</html>    

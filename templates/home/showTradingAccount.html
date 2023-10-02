@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+    {% extends 'layouts/base.html' %}
+
+    {% block title %} Profile {% endblock title %}
+
+    {% block content %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+    <body>
+        <div class="card">
+            <div class="card-header border-0">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="mb-0">TRADING ACCOUNT</h3>
+                    </div>
+                    <div class="col text-right">
+                        <a href="{% url 'createTradingAccount' %}" class="btn btn-sm btn-primary">Add</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="card p-2 ml-3 mr-3">
+            <div class="row">
+                <div class="col">
+                    <div class="card bg-default shadow">
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-dark table-flush">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">User ID</th>
+                                        <th scope="col">Broker ID</th>
+                                        <th scope="col">Zerodha User ID</th>
+                                        <th scope="col">Zerodha Password</th>
+                                        <th scope="col">Zerodha TOTP Key</th>
+                                        <th scope="col">IIFL Email Id</th>
+                                        <th scope="col">IIFL Contact Number</th>
+                                        <th scope="col">IIFL App Source</th>
+                                        <th scope="col">IIFL User Key</th>
+                                        <th scope="col">IIFL Password</th>
+                                        <th scope="col">IIFL Encry Key</th>
+                                        <th scope="col">IIFL OcpApimSubscription</th>
+                                        <th scope="col">IIFL My2Pin</th>
+                                        <th scope="col">IIFL ClientCode</th>
+                                        <th scope="col">IIFL cpass</th>
+                                        <th scope="col">Kotak Key</th>
+                                        <th scope="col">Kotak Secret</th>
+                                        <th scope="col">TA status</th>
+                                        <!-- <th scope="col"style="width: 150px;">created_by</th> -->
+                                        <!-- <th scope="col"style="width: 150px;">created_date</th>
+                    <th scope="col"style="width: 150px;">updated_date</th> -->
+                                        <!-- <th scope="col"style="width: 150px;">updated_by</th> -->
+                                        <th scope="col">action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list">
+                                    {% for x in data %}
+                                    <tr>
+
+                                        <td scope="row">{{ x.UserID }}</td>
+                                        <td scope="row">{{ x.BrokerID }}</td>
+                                        <td scope="row">{{ x.Zerodha_UserID}}</td>
+                                        <td scope="row">{{ x.Zerodha_TOTP_Key}}</td>
+                                        <td scope="row">{{ x.IIFL_Email_id}}</td>
+                                        <td scope="row">{{ x.IIFL_Contact_Number}}</td>
+                                        <td scope="row">{{ x.IIFL_App_Source}}</td>
+                                        <td scope="row">{{ x.IIFL_User_Key}}</td>
+                                        <td scope="row">{{ x.IIFL_User_id}}</td>
+                                        <td scope="row">{{ x.IIFL_Password}}</td>
+                                        <td scope="row">{{ x.IIFL_Encry_Key}}</td>
+                                        <td scope="row">{{ x.IIFL_OcpApimSubscription}}</td>
+                                        <td scope="row">{{ x.IIFL_My2Pin}}</td>
+                                        <td scope="row">{{ x.IIFL_ClientCode}}</td>
+                                        <td scope="row">{{ x.IIFL_cpass}}</td>
+                                        <td scope="row">{{ x.Kotak_Key}}</td>
+                                        <td scope="row">{{ x.Kotak_Secret}}</td>
+                                        <td scope="row">{{ x.TA_Status}}</td>
+                                        <!-- <td scope="row">{{ x.Created_By}}</td>  -->
+                                        <!-- <td scope="row">{{ x.TA_Created_Date}}</td>
+                        <td scope="row">{{ x.Updated_Date}}</td> -->
+                                        <!-- <td scope="row">{{ x.Updated_By}}</td> -->
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="{% url 'updateTradingAccount' x.doc_id %}"
+                                                    class="btn btn-success"><i class="fa fa-edit"></i></a>
+                                                <a href="{% url 'deleteTradingAccount' x.doc_id %}"
+                                                    onclick="return confirm('Are you sure to delete..?')"
+                                                    class="btn btn-danger"><i class="fa fa-trash"></i></a>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        {% endblock content %}
+
+        <!-- Specific JS goes HERE -->
+        {% block javascripts %}
+
+        <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
+        <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+
+        {% endblock javascripts %}
+    </body>
+
+</html>

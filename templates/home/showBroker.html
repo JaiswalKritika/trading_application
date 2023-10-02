@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+    {% extends 'layouts/base.html' %}
+
+    {% block title %} Profile {% endblock title %}
+
+    {% block content %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+    <body>
+        <div class="row">
+            <div class="card-body">
+
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Brokers</h3>
+                            </div>
+                            <div class="col text-right">
+                                <a href="{% url 'createBroker' %}" class="btn btn-sm btn-primary">Add</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" style="width: 217.767px;">Broker Name</th>
+                                    <th scope="col" style="width: 217.767px;">Broker Logo</th>
+                                    <th scope="col" style="width: 217.767px;">Created Date</th>
+                                    <th scope="col"style="width: 217.767px;">Updated Date</th>
+                                    <th scope="col" style="width: 217.767px;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for x in data %}
+                                <tr>
+                                    <td scope="row">{{ x.broker_name }}</td>
+                                    <td scope="row"><img src="{{ x.broker_logo }}" alt="" height="25%" width="25%"> </td>
+                                    <td scope="row">{{ x.created_date }}</td>
+                                    <td scope="row">{{ x.updated_date}}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a href="{% url 'updateBroker' x.doc_id %}" class="btn btn-success"><i
+                                                    class="fa fa-edit"></i></a>
+                                            <a href="{% url 'deleteBroker' x.doc_id %}"
+                                                onclick="return confirm('Are you sure to delete..?')"
+                                                class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+
+                {% include "includes/footer.html" %}
+
+            </div>
+
+            {% endblock content %}
+
+            <!-- Specific JS goes HERE -->
+            {% block javascripts %}
+
+            <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
+            <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+
+            {% endblock javascripts %}
+    </body>
+
+</html>

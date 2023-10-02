@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+{% extends 'layouts/base.html' %}
+
+{% block title %} Profile {% endblock title %}
+
+{% block content %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <body>
+    <div class="row">
+      <div class="card-body"> 
+  
+  <div class="card">
+  <div class="card-header border-0">
+  <div class="row align-items-center">
+    <div class="col">
+        <h2 class="mb-0">Add Users</h2>
+    </div>
+    <div class="col text-right">
+        <a href="{% url 'showUser' %}" class="btn btn-sm btn-primary">show</a>
+    </div>
+</div>
+  </div>
+
+<form action="{% url 'createUser' %}"  id="form" method="post" enctype="multipart/form-data" class="has-validation-callback" style="padding:2%;">
+  {% csrf_token %}
+  <!-- <input type="hidden" name="id" value="">  -->
+    <div class="form-group">
+      <label for="User_name">User Name:</label>
+      <input type="text" class="form-control" id="User_name" placeholder="Enter name" name="user_name" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" class="form-control" id="password" placeholder="" name="password" required>
+    </div>
+    <div class="form-group">
+        <label for="contact_no">Contact No.:</label>
+        <input type="text" class="form-control" id="contact_no" placeholder="" name="contact_no" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" placeholder="" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="created_date">Created Date:</label>
+        <input type="datetime-local" class="form-control" id="created_date" placeholder="" name="created_date" readonly>
+      </div>
+      
+      <div class="checkbox">
+        <label for="status">Status:</label>
+          <input type="checkbox" id="status" name="status" data-toggle="toggle">
+        </label>
+      </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+
+  {% include "includes/footer.html" %}
+
+</div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}
+</body>
+</html>

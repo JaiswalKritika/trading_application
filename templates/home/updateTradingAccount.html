@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    {% extends 'layouts/base.html' %}
+
+    {% block title %} Pr"text {% endblock title %}
+
+    {% block content %}
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <body>
+
+
+        <div class="card">
+            <div class="card-header border-0">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h2 class="mb-0">Update Trading Account</h2>
+                    </div>
+                    <div class="col text-right">
+                        <a href="{% url 'showTradingAccount' %}" class="btn btn-sm btn-primary">show</a>
+                    </div>
+                </div>
+            </div>
+
+            <form action="{% url  'updateTradingAccount' data.doc_id %}" id="form" method="post" enctype="multipart/form-data"
+                class="has-validation-callback">
+                {% csrf_token %}
+                <div class="row" style="margin: 10px;">
+                    <!-- <input type="hidden" name="id" value="{{data1.id}}">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="UserID">User ID</label>
+                        <select class="form-control" id="UserID" name="UserID">
+                            {% for x in data.user_data %}
+                            <option value="{{ x.id }}">{{ data1.user_name }}</option>
+                            {% endfor %}
+
+
+                          </select> 
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="BrokerID">BrokerID</label>
+                        <select class="form-control" id="BrokerID" name="BrokerID">
+                            {% for y in data.broker_data %}
+                            <option value="{{ y.id }}">{{ data1.broker_name}}</option>
+                            {% endfor %}
+
+
+                          </select> 
+                    </div> -->
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="UserID">User ID</label>
+                        <input type="text" class="form-control" value="{{data.UserID}}" id="UserID" placeholder="" name="UserID">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="BrokerID">Broker ID</label>
+                        <input type="text" class="form-control" value="{{data.BrokerID}}" id="BrokerID" placeholder="" name="BrokerID">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="Zerodha_UserID">Zerodha User ID</label>
+                        <input type="text" class="form-control" value="{{data.Zerodha_UserID}}" id="Zerodha_UserID" placeholder="" name="Zerodha_UserID">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="Zerodha_Password">Zerodha Password</label>
+                        <input type="text" value="{{data.Zerodha_Password}}" class="form-control" id="Zerodha_Password" placeholder="" name="Zerodha_Password">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="Zerodha_TOTP_Key">Zerodha TOTP Key</label>
+                        <input type="text" value="{{data.Zerodha_TOTP_Key}}" class="form-control" id="Zerodha_TOTP_Key" placeholder="" name="Zerodha_TOTP_Key">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="IIFL_Email_id">IIFL Email Id</label>
+                        <input type="text" class="form-control" value="{{data.IIFL_Email_id}}" id="IIFL_Email_id" placeholder="" name="IIFL_Email_id">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="IIFL_Contact_Number">IIFL Contact Number</label>
+                        <input type="text" class="form-control" value="{{data.IIFL_Contact_Number}}" id="IIFL_Contact_Number" placeholder="" name="IIFL_Contact_Number">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="IIFL_App_Source">IIFL App Source</label>
+                        <input type="text" class="form-control" value="{{data.IIFL_App_Source}}" id="IIFL_App_Source" placeholder="" name="IIFL_App_Source">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="IIFL_User_Key">IIFL User Key</label>
+                        <input type="text" class="form-control" value="{{data.IIFL_User_Key}}" id="IIFL_User_Key" placeholder="" name="IIFL_User_Key">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="IIFL_Password">IIFL Password</label>
+                        <input type="text" class="form-control" value="{{data.IIFL_Password}}" id="IIFL_Password" placeholder="" name="IIFL_Password">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="IIFL_User_id">IIFL User Id</label>
+                        <input type="text" class="form-control" value="{{data.IIFL_User_id}}" id="IIFL_User_id" placeholder="" name="IIFL_User_id">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="IIFL_Encry_Key">IIFL Encry Key</label>
+                        <input type="text" class="form-control" value="{{data.IIFL_Encry_Key}}" id="IIFL_Encry_Key" placeholder="" name="IIFL_Encry_Key">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="IIFL_OcpApimSubscription">IIFL OcpApim Subscription</label>
+                        <input type="text" class="form-control" value="{{data.IIFL_OcpApimSubscription}}" id="IIFL_OcpApimSubscription" placeholder="" name="IIFL_OcpApimSubscription">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="IIFL_My2Pin">IIFL My2Pin</label>
+                        <input type="text" class="form-control"  value="{{data.IIFL_My2Pin}}" id="IIFL_My2Pin" placeholder="" name="IIFL_My2Pin">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="IIFL_ClientCode">IIFL Client Code</label>
+                        <input type="text" class="form-control" value="{{data.IIFL_ClientCode}}" id="IIFL_ClientCode" placeholder="" name="IIFL_ClientCode">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="IIFL_cpass">IIFL cpass</label>
+                        <input type="text" class="form-control" value="{{data.IIFL_cpass}}" id="IIFL_cpass" placeholder="" name="IIFL_cpass">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="Kotak_Key">Kotak Key</label>
+                        <input type="text" class="form-control"  value="{{data.Kotak_Key}}" id="Kotak_Key" placeholder="" name="Kotak_Key">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="Kotak_Secret">Kotak Secret</label>
+                        <input type="text" class="form-control" value="{{data.Kotak_Secret}}" id="Kotak_Secret" placeholder="" name="Kotak_Secret">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="TA_Status">TA Status</label>
+                        <input type="text" class="form-control" value="{{data.TA_Status}}"  id="TA_Status" placeholder="" name="TA_Status">
+                    </div>
+                    
+                    <!-- <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="Created_By">Created_By</label>
+                        <input type="text" class="form-control" value="{{data.Created_By}}"  id="Created_By" placeholder="" name="Created_By">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="Updated_By">Updated_By</label>
+                        <input type="text" class="form-control" value="{{data.Updated_By}}" id="Updated_By" placeholder="" name="Updated_By">
+                    </div> -->
+    
+                </div>
+                <button type="submit" class="btn btn-default" style="margin: 10px;">Submit</button>
+            </form>
+
+            {% include "includes/footer.html" %}
+
+        </div>
+        </div>
+s
+        {% endblock content %}
+
+        <!-- Specific JS goes HERE -->
+        {% block javascripts %}{% endblock javascripts %}
+    </body>
+
+</html>

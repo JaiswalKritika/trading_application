@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script>
+  var expanded = false;
+
+  function showCheckboxes() {
+    var checkboxes = document.getElementById("checkboxes");
+    if (!expanded) {
+      checkboxes.style.display = "block";
+      expanded = true;
+    } else {
+      checkboxes.style.display = "none";
+      expanded = false;
+    }
+  }
+</script>
+{% extends 'layouts/base.html' %}
+
+{% block title %} Profile {% endblock title %}
+
+{% block content %}
+<style>
+  .box {
+    box-shadow: 0.2px 0.2px 1px rgb(150, 150, 150);
+    /* text-align: center; */
+  }
+
+  @media screen and (max-width: 500px) {
+    .box {
+      width: 50em;
+    }
+  }
+
+  .multiselect {
+    width: 200px;
+  }
+
+  .selectBox {
+    position: relative;
+  }
+
+  .selectBox select {
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .overSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  #checkboxes {
+    display: none;
+    border: 1px #dadada solid;
+  }
+
+  #checkboxes label {
+    display: block;
+  }
+
+  #checkboxes label:hover {
+    background-color: #1e90ff;
+  }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<body>
+
+  <div class="row">
+    <div class="card-body">
+
+      <div class="card">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h2 class="mb-0">Update Strategy</h2>
+            </div>
+            <div class="col text-right">
+              <a href="{% url 'showStrategy' %}" class="btn btn-sm btn-primary">show</a>
+            </div>
+          </div>
+        </div>
+
+        <form action="{% url 'updateStrategy' data.doc_id %}" id="form" method="post" enctype="multipart/form-data"
+          class="has-validation-callback" style="padding: 2%;">
+          {% csrf_token %}
+          <div id="accordion">
+            <input type="hidden" name="strategy_id" value="1">
+            <div class="row">
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="strategy_name">Strategy Name</label>
+                <input type="text" class="form-control" id="strategy_name" placeholder="" name="strategy_name"
+                  value="{{ data.strategy_name }}">
+              </div>
+              <!-- 3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333 -->
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="applicable_scripts">Applicable Scripts</label>
+                <br>
+                <div class="multiselect">
+                  <div class="selectBox" onclick="showCheckboxes()">
+                    <select multiple class="form-control" style="width:190%;" name="applicable_scripts" type="button"
+                      id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <div class="overSelect"></div>
+                  </div>
+                  <div id="checkboxes">
+                    <label for="one">
+                      <option type="checkbox" id="one" value="nifty">Nifty</option>
+                    </label>
+                    <label for="two">
+                      <option type="checkbox" id="two" value="banknifty">Bank Nifty</option>
+                    </label>
+                    <label for="three">
+                      <option type="checkbox" id="three" value="finnifty">Finn Nifty</option>
+                    </label>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                <label for="strategy_status">Strategy Status</label>
+                <br>
+                <div class="dropdown">
+                  <select class="form-control" style="width: 370%;" name="strategy_status" type="button"
+                    id="strategy_status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Strategy Status
+                    <div class="dropdown-menu">
+                      <option value="{{ data.strategy_status }}" selected  hidden>{{data.strategy_status}}</option>
+                      <option class="dropdown-item" value="active">active</option>
+                      <option class="dropdown-item" value="inactive">inactive</option>
+                    </div>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                <div class="card-header box">
+                  Generic parameters
+                </div>
+              </a>
+              <div id="collapseOne" class="collapse ">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="orb_range_candle_time">ORB Range
+                        Candle
+                        Time</label>
+                      <input type="number" class="form-control" id="orb_range_candle_time" placeholder=""
+                        name="orb_range_candle_time" value="{{data.generic_params.orb_range_candle_time}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="or_breakout_candle_time">OR
+                        Breakout
+                        Candle Time</label>
+                      <input type="number" class="form-control" id="or_breakout_candle_time" placeholder=""
+                        name="or_breakout_candle_time" value="{{data.generic_params.or_breakout_candle_time}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="orb_ma_h">ORB MA High</label>
+                      <input type="number" class="form-control" id="orb_ma_h" placeholder="" name="orb_ma_h"
+                        value="{{data.generic_params.orb_ma_h}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="orb_ma_l">ORB MA Low</label>
+                      <input type="number" class="form-control" id="orb_ma_l" placeholder="" name="orb_ma_l"
+                        value="{{data.generic_params.orb_ma_l}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="orb_range_start_time">ORB Range
+                        Start
+                        Time</label>
+                      <input type="time" class="form-control" id="orb_range_start_time" placeholder=""
+                        name="orb_range_start_time" value="{{data.generic_params.orb_range_start_time}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="orb_retracement_time">ORB
+                        Retracement
+                        Time</label>
+                      <input type="number" class="form-control" id="orb_retracement_time" placeholder=""
+                        name="orb_retracement_time" value="{{data.generic_params.orb_retracement_time}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_ma_h">ITM MA High</label>
+                      <input type="number" class="form-control" id="itm_ma_h" placeholder="" name="itm_ma_h"
+                        value="{{data.generic_params.itm_ma_h}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_ma_l">ITM MA Low</label>
+                      <input type="number" class="form-control" id="itm_ma_l" placeholder="" name="itm_ma_l"
+                        value="{{data.generic_params.itm_ma_l}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_ma_oi">ITM MA OI</label>
+                      <input type="number" class="form-control" id="itm_ma_oi" placeholder="" name="itm_ma_oi"
+                        value="{{data.generic_params.itm_ma_oi}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_reentry_after_mins">ITM
+                        Re-entry
+                        After Mins</label>
+                      <input type="number" class="form-control" id="itm_reentry_after_mins" placeholder=""
+                        name="itm_reentry_after_mins" value="{{data.generic_params.itm_reentry_after_mins}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_entry_points_difference">ITM
+                        Entry
+                        Points Difference</label>
+                      <input type="number" class="form-control" id="itm_entry_points_difference" placeholder=""
+                        name="itm_entry_points_difference" value="{{data.generic_params.itm_entry_points_difference}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_exit_points_difference">ITM
+                        Exit
+                        Points Difference</label>
+                      <input type="number" class="form-control" id="itm_exit_points_difference" placeholder=""
+                        name="itm_exit_points_difference" value="{{data.generic_params.itm_exit_points_difference}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_sl_points_difference">ITM SL
+                        Points
+                        Difference</label>
+                      <input type="number" class="form-control" id="itm_sl_points_difference" placeholder=""
+                        name="itm_sl_points_difference" value="{{data.generic_params.itm_sl_points_difference}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_sl_cost_points_difference">ITM
+                        Sl
+                        Cost Points Difference</label>
+                      <input type="number" class="form-control" id="itm_sl_cost_points_difference" placeholder=""
+                        name="itm_sl_cost_points_difference"
+                        value="{{data.generic_params.itm_sl_cost_points_difference}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_vwap_points_difference">ITM
+                        VWAAP
+                        Points Difference</label>
+                      <input type="number" class="form-control" id="itm_vwap_points_difference" placeholder=""
+                        name="itm_vwap_points_difference" value="{{data.generic_params.itm_vwap_points_difference}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_sold_option_premium_decay">ITM
+                        Sold
+                        Option Premium Decay</label>
+                      <input type="number" class="form-control" id="itm_sold_option_premium_decay" placeholder=""
+                        name="itm_sold_option_premium_decay"
+                        value="{{data.generic_params.itm_sold_option_premium_decay}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_profit_percent">ITM Profit
+                        Percent</label>
+                      <input type="number" class="form-control" id="itm_profit_percent" placeholder=""
+                        name="itm_profit_percent" value="{{data.generic_params.itm_profit_percent}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_profit_increment">ITM Profit
+                        Increment</label>
+                      <input type="number" class="form-control" id="itm_profit_increment" placeholder=""
+                        name="itm_profit_increment" value="{{data.generic_params.itm_profit_increment}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_first_target_qty">ITM First
+                        Target
+                        Qty</label>
+                      <input type="number" class="form-control" id="itm_first_target_qty" placeholder=""
+                        name="itm_first_target_qty" value="{{data.generic_params.itm_first_target_qty}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_second_target_qty">ITM
+                        Second
+                        Target
+                        Qty</label>
+                      <input type="number" class="form-control" id="itm_second_target_qty" placeholder=""
+                        name="itm_second_target_qty" value="{{data.generic_params.itm_second_target_qty}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_order_type">ITM Order
+                        Type</label>
+                      <br>
+                      <div class="dropdown">
+                        <select class="form-control" name="itm_order_type" disabled type="button" id="itm_order_type"
+                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:255%;">
+                          ITM Order Type
+                          <div class="dropdown-menu">
+                            <option class="dropdown-item" value="buy">BUY</option>
+                            <option class="dropdown-item" value="sell">SELL</option>
+                            <option class="dropdown-item" value="both">BOTH</option>
+                          </div>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_last_entry_condition_check_time">ITM
+                        Last Entry Condition Check
+                        Time</label>
+                      <input type="time" class="form-control" id="itm_last_entry_condition_check_time" placeholder=""
+                        name="itm_last_entry_condition_check_time"
+                        value="{{data.generic_params.itm_last_entry_condition_check_time}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_pyramid_start_time">ITM
+                        Pyramid
+                        Start Time</label>
+                      <input type="number" class="form-control" id="itm_pyramid_start_time" placeholder=""
+                        name="itm_pyramid_start_time" value="{{data.generic_params.itm_pyramid_start_time}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_last_pyramid_condition_check_time">ITM
+                        Last Pyramid Condition Check
+                        Time</label>
+                      <input type="time" class="form-control" id="itm_last_pyramid_condition_check_time" placeholder=""
+                        name="itm_last_pyramid_condition_check_time"
+                        value="{{data.generic_params.itm_last_pyramid_condition_check_time}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_second_tranche_time_diffence_mins">ITM
+                        Second Tranche Time Diffence
+                        Mins</label>
+                      <input type="number" class="form-control" id="itm_second_tranche_time_diffence_mins"
+                        placeholder="" name="itm_second_tranche_time_diffence_mins"
+                        value="{{data.generic_params.itm_second_tranche_time_diffence_mins}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_order_qty">ITM Order
+                        Qty</label>
+                      <input type="number" class="form-control" id="itm_order_qty" placeholder="" name="itm_order_qty"
+                        value="{{data.generic_params.itm_order_qty}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="itm_order_multiplier">ITM Order
+                        Multiplier</label>
+                      <input type="number" class="form-control" id="itm_order_multiplier" placeholder=""
+                        name="itm_order_multiplier" value="{{data.generic_params.itm_order_multiplier}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <a class="collapsed card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                <div class="card-header box">
+                  Nifty Parameters
+                </div>
+              </a>
+              <div id="collapseTwo" class="collapse">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="nifty_instrument_token">Nifty
+                        Instrument
+                        Token</label>
+                      <input type="number" class="form-control" id="nifty_instrument_token" placeholder=""
+                        name="nifty_instrument_token" value="{{data.nifty_params.nifty_instrument_token}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="nifty_hl_difference_points">Nifty
+                        HL
+                        Difference Points</label>
+                      <input type="number" class="form-control" id="nifty_hl_difference_points" placeholder=""
+                        name="nifty_hl_difference_points" value="{{data.nifty_params.nifty_hl_difference_points}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="nifty_or_range_point_difference">Nifty
+                        OR Range Point Difference</label>
+                      <input type="number" class="form-control" id="nifty_or_range_point_difference" placeholder=""
+                        name="nifty_or_range_point_difference"
+                        value="{{data.nifty_params.nifty_or_range_point_difference}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="nifty_or_breakout_range_point_diff">Nifty
+                        OR Breakout Range Point
+                        Diff</label>
+                      <input type="number" class="form-control" id="nifty_or_breakout_range_point_diff" placeholder=""
+                        name="nifty_or_breakout_range_point_diff"
+                        value="{{data.nifty_params.nifty_or_breakout_range_point_diff}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <a class="collapsed card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                <div class="card-header box">
+                  Bank Nifty Parameters
+                </div>
+              </a>
+              <div id="collapseThree" class="collapse">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="bankNifty_instrument_token">Bank
+                        Nifty
+                        Instrument Token</label>
+                      <input type="number" class="form-control" id="bankNifty_instrument_token" placeholder=""
+                        name="bankNifty_instrument_token" value="{{data.banknifty_params.bankNifty_instrument_token}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="bankNifty_hl_difference_points">Bank
+                        Nifty HL Difference Points</label>
+                      <input type="number" class="form-control" id="bankNifty_hl_difference_points" placeholder=""
+                        name="bankNifty_hl_difference_points"
+                        value="{{data.banknifty_params.bankNifty_hl_difference_points}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="bankNifty_or_range_point_difference">Bank
+                        Nifty OR Range Point
+                        Difference</label>
+                      <input type="number" class="form-control" id="bankNifty_or_range_point_difference" placeholder=""
+                        name="bankNifty_or_range_point_difference"
+                        value="{{data.banknifty_params.bankNifty_or_range_point_difference}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="bankNifty_or_breakout_range_point_diff">Bank
+                        Nifty OR Breakout Range
+                        Point Diff</label>
+                      <input type="number" class="form-control" id="bankNifty_or_breakout_range_point_diff"
+                        placeholder="" name="bankNifty_or_breakout_range_point_diff"
+                        value="{{data.banknifty_params.bankNifty_or_breakout_range_point_diff}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <a class="collapsed card-link " data-toggle="collapse" data-parent="#accordion" href="#collapsefour">
+                <div class="card-header box">
+                  Fin Nifty Parameters
+                </div>
+              </a>
+              <div id="collapsefour" class="collapse">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="form-group col-xs- 4col-sm-4 col-md-4">
+                      <label for="finNifty_instrument_token">FinNifty
+                        Instrument Token</label>
+                      <input type="number" class="form-control" id="finNifty_instrument_token" placeholder=""
+                        name="finNifty_instrument_token" value="{{data.finnifty_params.finNifty_instrument_token}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="finNifty_hl_difference_points">FinNifty
+                        HL Difference Points</label>
+                      <input type="number" class="form-control" id="finNifty_hl_difference_points" placeholder=""
+                        name="finNifty_hl_difference_points"
+                        value="{{data.finnifty_params.finNifty_hl_difference_points}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                      <label for="finNifty_or_range_point_difference">FinNifty
+                        OR Range Point
+                        Difference</label>
+                      <input type="number" class="form-control" id="finNifty_or_range_point_difference" placeholder=""
+                        name="finNifty_or_range_point_difference"
+                        value="{{data.finnifty_params.finNifty_or_range_point_difference}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+
+                      <label for="finNifty_or_breakout_range_point_diff">FinNifty
+                        OR Breakout Range Point
+                        Difference</label>
+                      <input type="number" class="form-control" id="finNifty_or_breakout_range_point_diff"
+                        placeholder="" name="finNifty_or_breakout_range_point_diff"
+                        value="{{data.finnifty_params.finNifty_or_breakout_range_point_diff}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </div>
+
+          <!-- 333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333 -->
+          <!-- <input type="hidden" name="id" value="{{data.strategy_id}}">
+          <div class="row">
+            <input type="hidden" name="strategy_id" value="1">
+            <div class="form-group col-xs- 4 col-sm-4 col-md-4">
+              <label for="strategy_name">Strategy Name</label>
+              <input type="text" class="form-control" id="strategy_name" placeholder="" name="strategy_name"
+                value="{{data.strategy_name}}">
+            </div>
+            <div class="form-group col-xs-4 col-sm-4 col-md-4">
+              <label for="applicable_scripts">Applicable Scripts</label>
+              <br>
+              <div class="multiselect">
+                <div class="selectBox" onclick="showCheckboxes()">
+                  <select multiple class="form-control" style="width:190%;" name="applicable_scripts" type="button"
+                    id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="overSelect"></div>
+                </div>
+                <div id="checkboxes">
+                  <label for="one">
+                    <option type="checkbox" id="one" value="nifty">Nifty</option>
+                  </label>
+                  <label for="two">
+                    <option type="checkbox" id="two" value="banknifty">Bank Nifty</option>
+                  </label>
+                  <label for="three">
+                    <option type="checkbox" id="three" value="finnifty">Finn Nifty</option>
+                  </label>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-xs-4 col-sm-4 col-md-4">
+              <label for="strategy_status">Strategy Status</label>
+              <br>
+              <div class="dropdown">
+                <select class="form-control" style="width:400%;" name="strategy_status" type="button"
+                  id="strategy_status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Strategy Status
+                  <div class="dropdown-menu">
+                    <option class="dropdown-item" value="active">active</option>
+                    <option class="dropdown-item" value="inactive">inactive</option>
+                  </div>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div id="accordion">
+              <div class="card">
+                <a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                  <div class="card-header box">
+                    Generic Parameters
+                  </div>
+                </a>
+                <div id="collapseOne" class="collapse">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="orb_range_candle_time">ORB Range Candle Time</label>
+                        <input type="number" class="form-control" id="orb_range_candle_time" placeholder=""
+                          name="orb_range_candle_time" value="{{data.generic_params.orb_range_candle_time}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="or_breakout_candle_time">OR Breakout Candle Time</label>
+                        <input type="number" class="form-control" id="or_breakout_candle_time" placeholder=""
+                          name="or_breakout_candle_time" value="{{data.generic_params.or_breakout_candle_time}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="orb_ma_h">ORB Moving Average High</label>
+                        <input type="number" class="form-control" id="orb_ma_h" placeholder="" name="orb_ma_h"
+                          value="{{data.generic_params.orb_ma_h}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="orb_ma_l">ORB Moving Average Low</label>
+                        <input type="number" class="form-control" id="orb_ma_l" placeholder="" name="orb_ma_l"
+                          value="{{data.generic_params.orb_ma_l}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="orb_range_start_time">ORB Range Start Time</label>
+                        <input type="time" class="form-control" id="orb_range_start_time" placeholder=""
+                          name="orb_range_start_time" value="{{data.generic_params.orb_range_start_time}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="orb_retracement_time">ORB Retracement Time</label>
+                        <input type="number" class="form-control" id="orb_retracement_time" placeholder=""
+                          name="orb_retracement_time" value="{{data.generic_params.orb_retracement_time}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_ma_h">ITM Moving Average High</label>
+                        <input type="number" class="form-control" id="itm_ma_h" placeholder="" name="itm_ma_h"
+                          value="{{data.generic_params.itm_ma_h}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_ma_l">ITM Moving Average Low</label>
+                        <input type="number" class="form-control" id="itm_ma_l" placeholder="" name="itm_ma_l"
+                          value="{{data.generic_params.itm_ma_l}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_ma_oi">ITM Moving Average OI</label>
+                        <input type="number" class="form-control" id="itm_ma_oi" placeholder="" name="itm_ma_oi"
+                          value="{{data.generic_params.itm_ma_oi}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_reentry_after_mins">ITM Rentry After Mins</label>
+                        <input type="number" class="form-control" id="itm_reentry_after_mins" placeholder=""
+                          name="itm_reentry_after_mins" value="{{data.generic_params.itm_reentry_after_mins}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_entry_points_difference">ITM Entry Points Difference</label>
+                        <input type="number" class="form-control" id="itm_entry_points_difference" placeholder=""
+                          name="itm_entry_points_difference"
+                          value="{{data.generic_params.itm_entry_points_difference}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_exit_points_difference">ITM Exit Points Difference</label>
+                        <input type="number" class="form-control" id="itm_exit_points_difference" placeholder=""
+                          name="itm_exit_points_difference" value="{{data.generic_params.itm_exit_points_difference}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_sl_points_difference">ITM SL Points Difference</label>
+                        <input type="number" class="form-control" id="itm_sl_points_difference" placeholder=""
+                          name="itm_sl_points_difference" value="{{data.generic_params.itm_sl_points_difference}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_sl_cost_points_difference">ITM SL Cost Points Difference</label>
+                        <input type="number" class="form-control" id="itm_sl_cost_points_difference" placeholder=""
+                          name="itm_sl_cost_points_difference"
+                          value="{{data.generic_params.itm_sl_cost_points_difference}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_vwap_points_difference">ITM VWAP Points Difference</label>
+                        <input type="number" class="form-control" id="itm_vwap_points_difference" placeholder=""
+                          name="itm_vwap_points_difference" value="{{data.generic_params.itm_vwap_points_difference}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_sold_option_premium_decay">ITM Sold Option Premium Decay</label>
+                        <input type="number" class="form-control" id="itm_sold_option_premium_decay" placeholder=""
+                          name="itm_sold_option_premium_decay"
+                          value="{{data.generic_params.itm_sold_option_premium_decay}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_profit_percent">ITM Profit Percent</label>
+                        <input type="number" class="form-control" id="itm_profit_percent" placeholder=""
+                          name="itm_profit_percent" value="{{data.generic_params.itm_profit_percent}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_profit_increment">ITM Profit Increment</label>
+                        <input type="number" class="form-control" id="itm_profit_increment" placeholder=""
+                          name="itm_profit_increment" value="{{data.generic_params.itm_profit_increment}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_first_target_qty">ITM First Target Quantity</label>
+                        <input type="number" class="form-control" id="itm_first_target_qty" placeholder=""
+                          name="itm_first_target_qty" value="{{data.generic_params.itm_first_target_qty}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_second_target_qty">ITM Second Target Quantity</label>
+                        <input type="number" class="form-control" id="itm_second_target_qty" placeholder=""
+                          name="itm_second_target_qty" value="{{data.generic_params.itm_second_target_qty}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_order_type">ITM Order Type</label>
+                        <br>
+                        <div class="dropdown">
+                          <select class="form-control" name="itm_order_type" type="button" id="itm_order_type"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:290%;">
+                            ITM Order Type
+                            <div class="dropdown-menu">
+                              <option class="dropdown-item" value="buy">BUY</option>
+                              <option class="dropdown-item" value="sell">SELL</option>
+                              <option class="dropdown-item" value="both">BOTH</option>
+                            </div>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_last_entry_condition_check_time">ITM Last Entry Condition Check Time</label>
+                        <input type="time" class="form-control" id="itm_last_entry_condition_check_time" placeholder=""
+                          name="itm_last_entry_condition_check_time"
+                          value="{{data.generic_params.itm_last_entry_condition_check_time}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_pyramid_start_time">ITM Pyramid Start Time</label>
+                        <input type="number" class="form-control" id="itm_pyramid_start_time" placeholder=""
+                          name="itm_pyramid_start_time" value="{{data.generic_params.itm_pyramid_start_time}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_last_pyramid_condition_check_time">ITM Last Pyramid Condition Check Time</label>
+                        <input type="time" class="form-control" id="itm_last_pyramid_condition_check_time"
+                          placeholder="" name="itm_last_pyramid_condition_check_time"
+                          value="{{data.generic_params.itm_last_pyramid_condition_check_time}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_second_tranche_time_diffence_mins">ITM Second Tranche Time Diffence Mins</label>
+                        <input type="number" class="form-control" id="itm_second_tranche_time_diffence_mins"
+                          placeholder="" name="itm_second_tranche_time_diffence_mins"
+                          value="{{data.generic_params.itm_second_tranche_time_diffence_mins}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_order_qty">ITM Order Qty</label>
+                        <input type="number" class="form-control" id="itm_order_qty" placeholder="" name="itm_order_qty"
+                          value="{{data.generic_params.itm_order_qty}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="itm_order_multiplier">ITM Order Multiplier</label>
+                        <input type="number" class="form-control" id="itm_order_multiplier" placeholder=""
+                          name="itm_order_multiplier" value="{{data.generic_params.itm_order_multiplier}}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div id="accordion">
+              <div class="card">
+                <a class="collapsed card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                  <div class="card-header box">
+                    Nifty parameters
+                  </div>
+                </a>
+                <div id="collapseTwo" class="collapse">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="nifty_instrument_token">Nifty Instrument Token</label>
+                        <input type="number" class="form-control" id="nifty_instrument_token" placeholder=""
+                          name="nifty_instrument_token" value="{{data.nifty_params.nifty_instrument_token}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="nifty_hl_difference_points">Nifty HL Difference Points</label>
+                        <input type="number" class="form-control" id="nifty_hl_difference_points" placeholder=""
+                          name="nifty_hl_difference_points" value="{{data.nifty_params.nifty_hl_difference_points}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="nifty_or_range_point_difference">Nifty OR Range Point Difference</label>
+                        <input type="number" class="form-control" id="nifty_or_range_point_difference" placeholder=""
+                          name="nifty_or_range_point_difference"
+                          value="{{data.nifty_params.nifty_or_range_point_difference}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="nifty_or_breakout_range_point_diff">Nifty OR Breakout Range Point Diff</label>
+                        <input type="number" class="form-control" id="nifty_or_breakout_range_point_diff" placeholder=""
+                          name="nifty_or_breakout_range_point_diff"
+                          value="{{data.nifty_params.nifty_or_breakout_range_point_diff}}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div id="accordion">
+              <div class="card">
+                <a class="collapsed card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                  <div class="card-header box">
+                    Bank Nifty Parameters
+                  </div>
+                </a>
+                <div id="collapseThree" class="collapse">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="bankNifty_instrument_token">BankNifty Instrument Token</label>
+                        <input type="number" class="form-control" id="bankNifty_instrument_token" placeholder=""
+                          name="bankNifty_instrument_token"
+                          value="{{data.banknifty_params.bankNifty_instrument_token}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="bankNifty_hl_difference_points">BankNifty HL Difference Points</label>
+                        <input type="number" class="form-control" id="bankNifty_hl_difference_points" placeholder=""
+                          name="bankNifty_hl_difference_points"
+                          value="{{data.banknifty_params.bankNifty_hl_difference_points}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="bankNifty_or_range_point_difference">Bank Nifty OR Range Point Difference</label>
+                        <input type="number" class="form-control" id="bankNifty_or_range_point_difference"
+                          placeholder="" name="bankNifty_or_range_point_difference"
+                          value="{{data.banknifty_params.bankNifty_or_range_point_difference}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="bankNifty_or_breakout_range_point_diff">Bank Nifty OR Breakout Range Point
+                          Diff</label>
+                        <input type="number" class="form-control" id="bankNifty_or_breakout_range_point_diff"
+                          placeholder="" name="bankNifty_or_breakout_range_point_diff"
+                          value="{{data.banknifty_params.bankNifty_or_breakout_range_point_diff}}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div id="accordion">
+              <div class="card">
+                <a class="collapsed card-link" data-toggle="collapse" data-parent="#accordion" href="#collapsefour">
+                  <div class="card-header box">
+                    FinNifty Parameters
+                  </div>
+                </a>
+                <div id="collapsefour" class="collapse">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="form-group col-xs- 3 col-sm-3 col-md-3">
+                        <label for="finNifty_instrument_token">FinNifty Instrument Token</label>
+                        <input type="number" class="form-control" id="finNifty_instrument_token" placeholder=""
+                          name="finNifty_instrument_token" value="{{data.finnifty_params.finNifty_instrument_token}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="finNifty_hl_difference_points">FinNifty HL Difference Points</label>
+                        <input type="number" class="form-control" id="finNifty_hl_difference_points" placeholder=""
+                          name="finNifty_hl_difference_points"
+                          value="{{data.finnifty_params.finNifty_hl_difference_points}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="finNifty_or_range_point_difference">FinNifty OR Range Point Difference</label>
+                        <input type="number" class="form-control" id="finNifty_or_range_point_difference" placeholder=""
+                          name="finNifty_or_range_point_difference"
+                          value="{{data.finnifty_params.finNifty_or_range_point_difference}}">
+                      </div>
+                      <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                        <label for="finNifty_or_breakout_range_point_diff">FinNifty OR Breakout Range Point Diff</label>
+                        <input type="number" class="form-control" id="finNifty_or_breakout_range_point_diff"
+                          placeholder="" name="finNifty_or_breakout_range_point_diff"
+                          value="{{data.finnifty_params.finNifty_or_breakout_range_point_diff}}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+      </div>
+    </div>
+
+
+    <!--dkddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd-->
+    <!-- <div class="row" id="nifty" style="display: flex;justify-content: space-evenly;"> -->
+
+    <!-- </div> -->
+    <!--bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb-->
+    <!-- <div class="row" id="banknifty" style="display: flex; justify-content: space-evenly;"> -->
+
+    <!-- </div> -->
+    <!--aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-->
+    <!-- <div class="row" id="finnifty" style="display: flex; justify-content: space-evenly;padding: 2%;"> -->
+
+  </div>
+  <!-- </div> -->
+
+  </form>
+
+  {% include "includes/footer.html" %}
+
+  </div>
+  </div>
+
+  {% endblock content %}
+
+  <!-- Specific JS goes HERE -->
+  {% block javascripts %}{% endblock javascripts %}
+  <!-- <script>
+        var dropdown = document.getElementById("dropdown");
+        var nifty = document.getElementById("nifty");
+        var banknifty = document.getElementById("banknifty");
+        var finnifty = document.getElementById("finnifty");
+        dropdown.addEventListener('change', work);
+        function work() {
+            var val = strategy.value;
+
+            if (val == "nifty") {
+
+                finnifty.style.display = "none";
+                banknifty.style.display = "none";
+                nifty.style.display = "block";
+            }
+            else if (val == "banknifty") {
+
+                nifty.style.display = "none";
+                finnifty.style.display = "none";
+                banknifty.style.display = "block";
+            }
+            else if (val == "finnifty") {
+
+                banknifty.style.display = "none";
+                nifty.style.display = "none";
+                finnifty.style.display = "block";
+            }
+            else {
+                finnifty.style.display = "block";
+                banknifty.style.display = "block";
+                nifty.style.display = "block";
+            }
+        } 
+      </script>-->
+
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  {% extends 'layouts/base.html' %}
+
+  {% block title %} Profile {% endblock title %}
+
+  {% block content %}
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <body>
+    <div class="row">
+      <div class="card-body">
+        <div class="card">
+          <div class="card-header border-0">
+            <div class="row align-items-center">
+              <div class="col">
+                <h2 class="mb-0">Add Brokers</h2>
+              </div>
+              <div class="col text-right">
+                <a href="{% url 'showBroker' %}" class="btn btn-sm btn-primary">show</a>
+              </div>
+            </div>
+          </div>
+
+          <form action="{% url 'createBroker' %}" id="form" method="post" enctype="multipart/form-data"
+            class="has-validation-callback" style="padding: 20px;">
+            {% csrf_token %}
+            <!-- <input type="hidden" name="timeid" value=""> -->
+            <div class="form-group">
+              <label for="broker_name">Broker Name:</label>
+              <input type="text" class="form-control" id="broker_name" placeholder="Enter name" name="broker_name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="broker_logo">Broker Logo:</label>
+              <input type="file" class="form-control" id="broker_logo" placeholder="" name="broker_logo" required>
+            </div>
+
+            <div class="form-group">
+              <label for="created_date">Created Date:</label>
+              <input type="datetime-local" class="form-control" id="created_date" placeholder="" name="created_date" readonly>
+            </div>
+
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+
+          {% include "includes/footer.html" %}
+
+        </div>
+      </div>
+
+      {% endblock content %}
+
+      <!-- Specific JS goes HERE -->
+      {% block javascripts %}{% endblock javascripts %}
+  </body>
+
+</html>
